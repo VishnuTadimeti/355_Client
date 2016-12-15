@@ -4,23 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ChatClient extends AsyncTask<Void, Void, Void> {
 
@@ -43,9 +33,12 @@ public class ChatClient extends AsyncTask<Void, Void, Void> {
                 chatSocket = new Socket(dstAddress, dstPort);
                 OutputStream out = chatSocket.getOutputStream();
                 PrintWriter outPrint = new PrintWriter(out,true);
+
+                // Send data to the Server
                 outPrint.println("cht" + message);
                 Log.d("Chat Client", message);
 
+                // Retrieve data from the Server in terms of JSON
                 InputStream inStream = chatSocket.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"));
                 StringBuilder builder = new StringBuilder();

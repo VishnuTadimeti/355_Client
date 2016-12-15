@@ -14,7 +14,7 @@ public class Chat extends AppCompatActivity {
     Button send;
     EditText input;
     TextView msg, reply;
-    String ipa, message, response, data;
+    String ipa, message, data;
     Intent i;
 
     @Override
@@ -25,13 +25,16 @@ public class Chat extends AppCompatActivity {
         input = (EditText) findViewById(R.id.messageInput);
         msg = (TextView) findViewById(R.id.message);
         reply = (TextView) findViewById(R.id.reply);
-        ipa = "172.20.10.3";
+
+        // Declare Static IP Address
+        ipa = "10.192.21.92";
         i = getIntent();
         data = i.getStringExtra("reply");
         reply.setText(data);
         System.out.println(data);
     }
 
+    // Method to get user input.
     public void addMessage(View v) {
         input = (EditText) findViewById(R.id.messageInput);
         message = input.getText().toString();
@@ -39,6 +42,7 @@ public class Chat extends AppCompatActivity {
         msg.setText(message);
     }
 
+    // Send message to ChatClient AsyncTask
     public void sendMessage(View v) {
         ChatClient chatClient = new ChatClient(getApplicationContext(), ipa, 8080, message);
         chatClient.execute();

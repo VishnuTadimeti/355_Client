@@ -48,8 +48,12 @@ public class Cal extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.eventsList);
         events = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_checked, events);
-        ipa = "172.20.10.3";
 
+        // Declare Static IP Address
+        ipa = "10.192.21.92";
+
+
+        // Using Intent to get information from the Cal Client class
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
@@ -75,7 +79,7 @@ public class Cal extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Added event to Calendar", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Adding event to Calendar", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 AlertDialog.Builder alert = new AlertDialog.Builder(Cal.this);
                 alert.setTitle("Add event title");
@@ -88,6 +92,9 @@ public class Cal extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         savedTitle = eventTitle.getText().toString();
                         dialog.dismiss();
+
+                        // Get Calendar Instance
+
                         Calendar c = Calendar.getInstance();
                         year = c.get(Calendar.YEAR);
                         month = c.get(Calendar.MONTH);
@@ -110,6 +117,7 @@ public class Cal extends AppCompatActivity {
         });
     }
 
+    // Date listener
     class DateSetListener implements DatePickerDialog.OnDateSetListener {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -126,6 +134,7 @@ public class Cal extends AppCompatActivity {
         }
     }
 
+    // Send calendar event to CalClient AsyncTask
     public void sendDate(View v){
         CalClient client = new CalClient(getApplicationContext(), ipa, 8080, event, savedTitle);
         client.execute();

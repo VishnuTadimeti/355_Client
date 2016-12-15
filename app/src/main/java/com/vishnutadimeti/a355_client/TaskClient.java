@@ -39,22 +39,19 @@ class TaskClient extends AsyncTask<Void, Void, Void> {
                 taskSocket = new Socket(dstAddress, dstPort);
                 OutputStream out = taskSocket.getOutputStream();
                 PrintWriter outPrint = new PrintWriter(out,true);
+
+                // Send data to the Server
                 outPrint.println("tsk" + task);
                 Log.d("Print Task", task);
                 String text;
 
+                // Retrieve data from the Server in terms of JSON
                 InputStream inStream = taskSocket.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"));
                 StringBuilder builder = new StringBuilder();
 
                 while ((text = reader.readLine()) != null) builder.append(text);
                 jsonData = builder.toString();
-
-//                JSONArray jArray = new JSONArray(jsonData);
-
-//                for (int i=0; i < jArray.length(); i++){
-//                    listData.add(jArray.get(i).toString());
-//                }
 
             } catch (IOException e) {
                 e.printStackTrace();

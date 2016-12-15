@@ -22,7 +22,6 @@ class CalClient extends AsyncTask<Void, Void, Void> {
     private final Context context;
     private String dstAddress, eventTitle, jsonData, eventDate;
     private int dstPort;
-    private ArrayList<String> listData = new ArrayList<>();
 
     CalClient(Context context, String address, int port, String event, String title) {
         this.context = context;
@@ -40,9 +39,12 @@ class CalClient extends AsyncTask<Void, Void, Void> {
                 socket = new Socket(dstAddress, dstPort);
                 OutputStream out = socket.getOutputStream();
                 PrintWriter outPrint = new PrintWriter(out,true);
+
+                // Send data to the Server
                 outPrint.println("cal" + eventDate + eventTitle);
                 Log.d("Cal Client", eventDate + eventTitle);
 
+                // Retrieve data from the Server in terms of JSON
                 InputStream inStream = socket.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inStream, "UTF-8"));
                 StringBuilder builder = new StringBuilder();

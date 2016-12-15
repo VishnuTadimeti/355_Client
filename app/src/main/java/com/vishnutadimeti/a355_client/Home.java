@@ -26,7 +26,7 @@ import java.util.List;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    String task, ipa, json;
+    String task, ipa;
     EditText input;
     List<String> taskList = new ArrayList<>();
     ListView listView;
@@ -38,7 +38,9 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ipa = "172.20.10.3";
+
+        // Declare Static IP Address
+        ipa = "10.192.21.92";
 
         listView = (ListView) findViewById(R.id.taskList);
         taskAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_checked, taskList);
@@ -115,6 +117,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         return true;
     }
 
+    // Get user input
     public void addTask(View v) {
         input = (EditText) findViewById(R.id.input);
         task = input.getText().toString();
@@ -124,11 +127,13 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         sendTask(v);
     }
 
+    // Send the task to TaskClient AsyncTask
     public void sendTask(View v){
         TaskClient taskClient = new TaskClient(getApplicationContext(), ipa, 8080, task);
         taskClient.execute();
     }
 
+    // Delete a task from the list.
     public void deleteTask(String in) {
         taskList.remove(in);
         taskAdapter.notifyDataSetChanged();
